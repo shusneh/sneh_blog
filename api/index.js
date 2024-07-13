@@ -18,5 +18,5 @@ app.use('/api/auth',authRoutes)
 
 
 app.listen(3000,()=>{
-    console.log("server is running at 3000!");
-})
+    console.log("server is running at 3000!"); 
+}) 

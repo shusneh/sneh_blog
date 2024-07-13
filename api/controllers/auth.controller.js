@@ -13,14 +13,14 @@ export const signup = async(req,res)=>{
     const newUser = new User({
         username,
         email,
-        password : hashPassword 
+        password : hashPassword  
     }); 
 
     try {
         await newUser.save();
         res.status(200).json({message : "SignUp Successful"});    
     } catch (err) {
-        res.json({message : err.message}); // why we cant ue next here !!
+        res.json({message : err.message,success:"false"}); // why we cant ue next here !!
     }
 
     
