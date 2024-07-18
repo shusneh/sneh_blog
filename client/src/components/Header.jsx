@@ -1,11 +1,17 @@
-import { Navbar, TextInput, Button } from 'flowbite-react'
+import { Navbar, TextInput, Button, Dropdown, Avatar } from 'flowbite-react'
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { toogleTheme } from '../redux/theme/themeSlice';
+
 
 export default function Header() {
     const path=useLocation().pathname;
+    const dispatch = useDispatch();
+    const {theme} = useSelector(store=>store.theme);
+    const {currentUser} =useSelector(store=>store.user);
   return (
     <Navbar className='border-b-2'>
         <Link
@@ -31,14 +37,42 @@ export default function Header() {
         <AiOutlineSearch />
       </Button>
       <div className='flex gap-2 md:order-2'>
-        <Button className='w-12 h-10 hidden sm:inline' color='gray' pill>
-            <FaMoon />
+        <Button 
+        className='w-12 h-10 hidden sm:inline' color='gray' pill
+        onClick={()=>{
+          dispatch(toogleTheme());
+        }}
+        >
+          {theme==="dark"?<FaMoon />:<FaSun />}
+            
         </Button>
-        <Link to="/sign-in">
+        {currentUser ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar alt='user' img={currentUser.profilePicture} rounded />
+            }
+          >
+            <Dropdown.Header>
+              <span className='block text-sm'>@{currentUser.username}</span>
+              <span className='block text-sm font-medium truncate'>
+                {currentUser.email}
+              </span>
+            </Dropdown.Header>
+            <Link to={'/dashboard?tab=profile'}>
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+           
+          </Dropdown>
+        ) : (
+          <Link to='/sign-in'>
             <Button gradientDuoTone='purpleToBlue' outline>
-                SignIn
+              Sign In
             </Button>
-        </Link>
+          </Link>
+        )}
         <Navbar.Toggle/>
         </div>
         <Navbar.Collapse>
