@@ -8,7 +8,7 @@ import {
   HiChartPie,
 } from 'react-icons/hi';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 export default function DashSidebar() {
     const location = useLocation();
     const [tab, setTab] = useState('');
+    
     useEffect(() => {
       const urlParams = new URLSearchParams(location.search);
       const tabFromUrl = urlParams.get('tab');
@@ -34,6 +35,7 @@ export default function DashSidebar() {
         icon = {HiUser}
         label = {'User'}
         labelColor = {'dark'}
+        as = 'div'
         >
             Profile
         </Sidebar.Item>
