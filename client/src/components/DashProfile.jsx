@@ -211,11 +211,28 @@ export default function DashProfile() {
             defaultValue={currentUser.email} onChange={handleChange}/>
              <TextInput type="password" id="password" placeholder="password"  onChange={handleChange}/>
             
-            <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-              Update Password
+            <Button type="submit" 
+            gradientDuoTone="purpleToBlue" 
+            outline
+            disabled= {loading||imageFileUploading}
+            >
+              {loading?'Loading...':'Update'}
             </Button>
+            {
+              currentUser.isAdmin&& (
+                <Link to='/create-post'>
+                  <Button type="Button" 
+                    gradientDuoTone="purpleToBlue" 
+                    outline     
+                    className='w-full'               
+                    >
+                      Create Post
+                  </Button>
+                </Link>
+              )
+            }
         </form>
-        <div className="text-red-500 justify-between mt-5">
+        <div className="text-red-500 justify-between mt-5 w-full">
           <span onClick={()=>setShowModal(true)} className="cursor-pointer">
             Delete Account
           </span>
