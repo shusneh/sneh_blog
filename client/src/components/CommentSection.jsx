@@ -1,12 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {useSelector} from 'react-redux'
 import { Link } from "react-router-dom"
 import { Button, Textarea, Alert } from "flowbite-react";
+import Comments from "./Comments";
 export default function CommentSection({postId}) {
     const {currentUser}  = useSelector(state=>state.user);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] =useState('');
     const [commentSuccess, setCommentSuccess] =useState('');
+    const [comments, setComments] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -36,6 +39,48 @@ export default function CommentSection({postId}) {
           setCommentError(error.message);
         }
       };
+
+      useEffect(()=>{
+        const getPosts=async()=>{
+            const res =await fetch(`/api/comment/getPostComments/${postId}`);
+            const data = await res.json();
+            setComments(data);
+        }
+
+        getPosts();
+      },[postId])
+
+      console.log(comments);
+      
+      const handleLike = async (commentId)=>{
+        try {
+          if(!currentUser) {
+            setErrorMessage('Please login to like comment');
+            return;
+          }
+          const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+            method: 'PUT',
+          });
+          if (res.ok) {
+            const data = await res.json();
+            setComments(
+              comments.map((comment) =>
+                comment._id === commentId
+                  ? {
+                      ...comment,
+                      likes: data.likes,
+                      numberOfLikes: data.likes.length,
+                    }
+                  : comment
+              )
+            );
+          }
+
+        } catch (error) {
+          console.log(error.message);
+          
+        }
+      }
 
   return (
     <div>
@@ -95,6 +140,27 @@ export default function CommentSection({postId}) {
           )}
             </form>
         )
+    }
+    {
+      comments.length===0?(
+        <p>No comments yet</p>
+      ):(
+        <>
+        
+        <div className="flex gap-2 mt-5  items-center  ">
+          <p >comments</p>
+          <p className=" border border-gray-500  py-1 px-2">{comments.length}</p>
+        </div>
+        {
+          comments.map((comment)=>(
+           <Comments key={comment._id}
+           comment={comment}
+           onLike={handleLike}
+           />
+           ) )
+        }
+        </>
+      )
     }
     </div>
   )
