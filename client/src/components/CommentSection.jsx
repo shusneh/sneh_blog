@@ -84,10 +84,29 @@ export default function CommentSection({postId}) {
 
        const handleEdit = async (comment, editedContent) => {
     setComments(
-      comments.map((c) =>
-        c._id === comment._id ? { ...c, content: editedContent } : c
+      comments.map((c) =>(        
+        c._id === comment._id ? { ...c, content: editedContent } : c)
       )
     );
+  };
+
+   const handleDelete = async (commentId) => {
+    // setShowModal(false);
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div>
@@ -164,6 +183,7 @@ export default function CommentSection({postId}) {
            comment={comment}
            onLike={handleLike}
            onEdit={handleEdit}
+           onDelete= {handleDelete}
            />
            ) )
         }
