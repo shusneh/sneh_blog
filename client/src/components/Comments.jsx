@@ -50,7 +50,7 @@ export default function Comments({comment, onLike, onEdit, onDelete}) {
 
         if(res.ok){
           setIsEditing(false);
-          onEdit(comment, editedContent);
+          onEdit(comment._id, editedContent);
         }
       } catch (error) {
         console.log(error.message);
