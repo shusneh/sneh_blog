@@ -13,6 +13,7 @@ import CreatePost from './pages/CreatePost'
 import UpdatePost from './pages/UpdatePost'
 import PostsPage from './pages/PostsPage'
 import ScrollToTop from './components/ScrollToTop'
+import Search from './pages/Search'
 // import About from './pages/About' 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
       <Route path='/projects' element={<Projects/>} /> 
       <Route path='/sign-in' element={<SignIn/>} />
       <Route path='/sign-up' element={<SignUp/>} />
+      <Route path='/search' element={<Search/>} />
       <Route path='/post/:postSlug' element={<PostsPage/>}/>
       
     </Routes>
