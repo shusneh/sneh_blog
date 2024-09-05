@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom';
+import {Button} from 'flowbite-react';
+import { useEffect, useState } from 'react';
 
 export default function PostCard({ post }) {
+  
+
+  useEffect(()=>{
+    
+  })
+
+ 
   return (
     <div className='group relative w-full border border-teal-500 hover:border-2 h-[400px] overflow-hidden rounded-lg sm:w-[430px] transition-all'>
       <Link to={`/post/${post.slug}`}>
@@ -10,6 +19,8 @@ export default function PostCard({ post }) {
           className='h-[260px] w-full  object-cover group-hover:h-[200px] transition-all duration-300 z-20'
         />
       </Link>
+      <div className='flex-row'>
+      </div>
       <div className='p-3 flex flex-col gap-2'>
         <p className='text-lg font-semibold line-clamp-2'>{post.title}</p>
         <span className='italic text-sm'>{post.category}</span>

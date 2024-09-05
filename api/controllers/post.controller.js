@@ -1,4 +1,5 @@
 import Post from "../models/post.model.js";
+import PostLike from "../models/postLikes.model.js";
 import { errorHandler } from "../utils/error.js"
 
 export const create = async(req,res, next)=>{
@@ -107,3 +108,21 @@ export const getposts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const likePost = async(req, res, next) =>{
+  try {   
+    const likedPost = await PostLike.findById(req.params.postId);
+    
+    
+    if(likePost){
+      console.log(likedPost);
+       
+    }
+    
+  
+    await likedPost.save();
+    res.status(200).json(likedPost);
+  } catch (error) {
+    next(error);
+  }
+}

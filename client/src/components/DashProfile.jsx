@@ -162,7 +162,7 @@ export default function DashProfile() {
 
   console.log(currentUser.isAdmin);
   return (
-    <div className="max-w-lg mx-auto w-full p-3 ">
+    <div className="max-w-lg mx-auto min-w-full p-3 ">
         <h1 className="my-7 text-center font-semibold text-3xl">
             Profile
         </h1>
