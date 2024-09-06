@@ -1,6 +1,7 @@
 import Post from "../models/post.model.js";
 import PostLike from "../models/postLikes.model.js";
 import { errorHandler } from "../utils/error.js"
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const create = async(req,res, next)=>{
     if(!req.user.isAdmin){
@@ -124,5 +125,26 @@ export const likePost = async(req, res, next) =>{
     res.status(200).json(likedPost);
   } catch (error) {
     next(error);
+  }
+}
+
+export const useAi = async (req,res,next)=>{
+//   if (req.user.isAdmin==false || req.user.id !== req.params.userId) {
+//     return next(errorHandler(403, 'You are not authorised'));
+//   }
+ 
+  
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = req.params.question;
+
+    const result = await model.generateContent(prompt);
+    res.status(200).json(result.response.text());
+    
+    
+  } catch (error) {
+    next(error)
   }
 }

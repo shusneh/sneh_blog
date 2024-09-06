@@ -51,9 +51,12 @@ export default function SignIn() {
   }
 
   const handleClick = async()=>{
-    if(guestId!=="BTECH1051421"){
+    if(guestId.toLowerCase()!=="btech1051421"){
       setShowModal(false);
       setGuestErrorMessage('Wrong Id');
+      setTimeout(() => {
+        setGuestErrorMessage("");
+      }, 2000);
       return;
     }
     setFormData({"email":'shubhanshusneh@gmail.com',"password":"Sriram@12"});
